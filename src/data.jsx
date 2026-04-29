@@ -1,6 +1,13 @@
 // NXT Move Partnership Prospectus — content
 // Sourced from "NXT Move Initiatives" PDF, Apr 2026
 
+// Wrapped in an IIFE so the top-level const declarations below stay local
+// to this script. They previously leaked into the page-wide global lexical
+// scope as classic-script "const"s, colliding with the matching destructure
+// at the top of app.jsx ("const { REGIONS, ... } = window.NXT_DATA") and
+// throwing "SyntaxError: Identifier 'REGIONS' has already been declared".
+// Only window.NXT_DATA still escapes, which is the only thing app.jsx needs.
+(function () {
 const REGIONS = [
   {
     id: 'africa',
@@ -518,3 +525,4 @@ const DFW_MODEL = {
 };
 
 window.NXT_DATA = { REGIONS, INITIATIVES, FILTERS, PARTNER_TIERS, DFW_MODEL };
+})();
