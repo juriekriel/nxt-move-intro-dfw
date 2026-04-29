@@ -1,14 +1,14 @@
 /* Main NXT Move site — From DFW to the World */
 const { REGIONS, INITIATIVES, FILTERS, PARTNER_TIERS } = window.NXT_DATA;
 // Components below (WorldMap, RegionModal, InitiativeModal, DonateModal,
-// StatCounter, GeoMap, DFWSection) are declared via `function Name() {...}`
-// at the top level of their own classic-script files after pre-compile, which
-// auto-promotes them to global var bindings — so they're already accessible
-// here by bare name. The previous `const { WorldMap, ... } = window;` line
-// re-declared those same names lexically, which collides with the existing
-// global var bindings at parse time and throws "SyntaxError: Identifier
-// 'WorldMap' has already been declared" — preventing app.js from running at
-// all and leaving the page blank.
+// StatCounter, GeoMap, DFWSection, MobileAccordion, useIsMobile) are declared
+// via `function Name() {...}` at the top level of their own classic-script
+// files after pre-compile, which auto-promotes them to global var bindings —
+// so they're already accessible here by bare name. The previous
+// `const { WorldMap, ... } = window;` line re-declared those names lexically,
+// which collides with the existing global var bindings at parse time and
+// throws "SyntaxError: Identifier 'WorldMap' has already been declared" —
+// preventing app.js from running at all and leaving the page blank.
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "light",
@@ -19,21 +19,77 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 } /*EDITMODE-END*/;
 
 function TopNav({ onDonate }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const close = () => setMenuOpen(false);
+
+  // Lock body scroll when menu open
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [menuOpen]);
+
+  // Close on Escape
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const links = [
+    { href: '#how', label: 'How' },
+    { href: '#find', label: 'Find Yours' },
+    { href: '#regions', label: 'Regions' },
+    { href: '#dfw', label: 'DFW' },
+    { href: '#initiatives', label: 'Initiatives' }
+  ];
+
   return (
     <header className="topnav">
       <div className="topnav-inner">
-        <a href="#top" className="topnav-brand">
+        <a href="#top" className="topnav-brand" onClick={close}>
           <img src="assets/logos/nxt-horizontal.png" alt="NXT Move" />
         </a>
+
+        {/* Desktop nav */}
         <nav className="topnav-links">
-          <a className="topnav-link" href="#how">How</a>
-          <a className="topnav-link" href="#find">Find Yours</a>
-          <a className="topnav-link" href="#regions">Regions</a>
-          <a className="topnav-link" href="#dfw">DFW</a>
-          <a className="topnav-link" href="#initiatives">Initiatives</a>
+          {links.map((l) => <a key={l.href} className="topnav-link" href={l.href}>{l.label}</a>)}
           <a className="topnav-cta" href="#partner">Partner</a>
         </nav>
+
+        {/* Mobile right cluster */}
+        <div className="topnav-mobile">
+          <a className="topnav-cta topnav-cta--mobile" href="#partner" onClick={close}>Partner</a>
+          <button
+            type="button"
+            className={`topnav-burger ${menuOpen ? 'open' : ''}`}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile drawer */}
+      <div className={`topnav-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
+        <nav className="topnav-drawer-nav">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="topnav-drawer-link" onClick={close}>
+              <span>{l.label}</span>
+              <span className="topnav-drawer-arrow">→</span>
+            </a>
+          ))}
+          <a href="#partner" className="topnav-drawer-cta" onClick={close}>
+            Partner with us
+          </a>
+        </nav>
+      </div>
+      {menuOpen && <div className="topnav-scrim" onClick={close} />}
     </header>);
 
 }
@@ -75,8 +131,14 @@ function Hero() {
 }
 
 function HowItWorks() {
+  const isMobile = typeof useIsMobile === 'function' ? useIsMobile() : false;
+  const cards = [
+    { num: '01', title: 'Catalyze', body: 'We catalyze leaders by creating environments where ideas, relationships, and opportunities come together to accelerate their impact for the next generation.' },
+    { num: '02', title: 'Collaborate', body: 'We collaborate with leaders and organizations across the global Church to align efforts and multiply what God is doing among the next generation.' },
+    { num: '03', title: 'Champion', body: 'We champion leaders by elevating their voices, strengthening their influence, and ensuring they have the support they need to lead well.' }
+  ];
   return (
-    <section className="how-section" id="how">
+    <section className="how-section">
       <div className="section-eyebrow">How NXT Move Works</div>
       <h2 className="section-title" style={{ color: "rgb(5, 5, 5)", fontFamily: "Caveat", fontSize: "45px" }}>
         Strengthening the leaders who <span className="grad-text">shape</span> the future.
@@ -86,30 +148,19 @@ function HowItWorks() {
         <span>NXT Move exists to accelerate Christianity<br />in the next generation.</span>
       </p>
       <div className="how-grid">
-        <div className="how-card">
-          <div className="how-card-num">01</div>
-          <h3 className="how-card-title">Catalyze</h3>
-          <p className="how-card-body">
-            We catalyze leaders by creating environments where ideas, relationships, and opportunities
-            come together to accelerate their impact for the next generation.
-          </p>
-        </div>
-        <div className="how-card">
-          <div className="how-card-num">02</div>
-          <h3 className="how-card-title">Collaborate</h3>
-          <p className="how-card-body">
-            We collaborate with leaders and organizations across the global Church to align efforts
-            and multiply what God is doing among the next generation.
-          </p>
-        </div>
-        <div className="how-card">
-          <div className="how-card-num">03</div>
-          <h3 className="how-card-title">Champion</h3>
-          <p className="how-card-body">
-            We champion leaders by elevating their voices, strengthening their influence,
-            and ensuring they have the support they need to lead well.
-          </p>
-        </div>
+        {cards.map((c) => isMobile ? (
+          <MobileAccordion key={c.num} variant="card" eyebrow={c.num} title={c.title}>
+            <div className="how-card">
+              <p className="how-card-body">{c.body}</p>
+            </div>
+          </MobileAccordion>
+        ) : (
+          <div key={c.num} className="how-card">
+            <div className="how-card-num">{c.num}</div>
+            <h3 className="how-card-title">{c.title}</h3>
+            <p className="how-card-body">{c.body}</p>
+          </div>
+        ))}
       </div>
     </section>);
 
@@ -170,9 +221,10 @@ function FindYours({ onSelectInterest, activeFilters, matchCount, onScrollToResu
 }
 
 function RegionsSection({ regions, onOpen, hoverId, setHoverId, activeFilters, mapStyle, editPins }) {
+  const isMobile = typeof useIsMobile === 'function' ? useIsMobile() : false;
   const useGeo = mapStyle === 'filled' || mapStyle === 'outline' || mapStyle === 'shaded';
   return (
-    <section className="section" id="regions">
+    <section className="section">
       <div className="section-eyebrow">11 Regions</div>
       <h2 className="section-title">
         One global community.<br />
@@ -182,18 +234,53 @@ function RegionsSection({ regions, onOpen, hoverId, setHoverId, activeFilters, m
         Browse the regions below — or jump straight to the cards.
       </p>
 
-      {useGeo ?
+      {!isMobile && (useGeo ?
       <GeoMap regions={regions} activeRegion={hoverId} onSelect={onOpen} onHover={setHoverId} variant={mapStyle} editMode={editPins} /> :
-      <WorldMap regions={regions} activeRegion={hoverId} onSelect={onOpen} onHover={setHoverId} />}
+      <WorldMap regions={regions} activeRegion={hoverId} onSelect={onOpen} onHover={setHoverId} />)}
 
-      <div className="region-grid" style={{ marginTop: 56 }} id="region-cards">
+      <div className="region-grid" style={{ marginTop: isMobile ? 24 : 56 }} id="region-cards">
         {regions.map((r) => {
           const matches = activeFilters.length === 0 || r.interests.some((i) => activeFilters.includes(i));
+          const dimmed = !matches && activeFilters.length > 0;
+
+          if (isMobile) {
+            return (
+              <MobileAccordion
+                key={r.id}
+                variant="card"
+                eyebrow={`Region ${r.num}`}
+                title={r.name}
+                forceOpen={matches && activeFilters.length > 0}
+                className={dimmed ? 'dimmed' : ''}>
+                <article
+                  className="region-card"
+                  data-region={r.id}
+                  style={{ '--region-accent': r.accent }}>
+                  <div className="region-card-logo">
+                    <img src={r.logo} alt={`NXT Move ${r.name}`} />
+                  </div>
+                  <p className="region-card-vision" style={{ marginTop: 8 }}>{r.vision}</p>
+                  <div className="region-card-stats">
+                    {r.stats.map((s, i) =>
+                      <div key={i} style={{ flex: 1 }}>
+                        <div className="region-card-stat-val">{s.value}</div>
+                        <div className="region-card-stat-lbl">{s.label}</div>
+                      </div>
+                    )}
+                  </div>
+                  <button className="ma-open-full" onClick={() => onOpen(r.id)}>
+                    Open full region →
+                  </button>
+                </article>
+              </MobileAccordion>
+            );
+          }
+
           return (
             <article
               key={r.id}
               data-region={r.id}
-              className={`region-card ${!matches && activeFilters.length > 0 ? 'dimmed' : ''}`}
+              className={`region-card ${dimmed ? 'dimmed' : ''}`}
               onClick={() => onOpen(r.id)}
               onMouseEnter={() => setHoverId(r.id)}
               onMouseLeave={() => setHoverId(null)}
@@ -226,8 +313,9 @@ function RegionsSection({ regions, onOpen, hoverId, setHoverId, activeFilters, m
 }
 
 function InitiativesSection({ initiatives, onOpen, activeFilters }) {
+  const isMobile = typeof useIsMobile === 'function' ? useIsMobile() : false;
   return (
-    <section className="init-section" id="initiatives">
+    <section className="init-section">
       <div className="section" style={{ paddingTop: 100, paddingBottom: 100 }}>
         <div className="section-eyebrow">7 Global Initiatives</div>
         <h2 className="section-title">
@@ -241,12 +329,41 @@ function InitiativesSection({ initiatives, onOpen, activeFilters }) {
         <div className="init-grid">
           {initiatives.map((init) => {
             const matches = activeFilters.length === 0 || init.interests.some((i) => activeFilters.includes(i));
+            const dimmed = !matches && activeFilters.length > 0;
+
+            if (isMobile) {
+              return (
+                <MobileAccordion
+                  key={init.id}
+                  variant="card"
+                  eyebrow={`Initiative ${init.num}`}
+                  title={init.name}
+                  forceOpen={matches && activeFilters.length > 0}
+                  className={dimmed ? 'dimmed' : ''}>
+                  <article className="init-card">
+                    <p className="init-card-tagline" style={{ marginTop: 0 }}>{init.tagline}</p>
+                    <div className="init-card-meta">
+                      {init.stats.map((s, i) =>
+                        <div key={i} className="init-card-stat">
+                          <strong>{s.value}</strong>
+                          {s.label.length > 60 ? s.label.slice(0, 60) + '…' : s.label}
+                        </div>
+                      )}
+                    </div>
+                    <button className="ma-open-full" onClick={() => onOpen(init.id)}>
+                      Open full initiative →
+                    </button>
+                  </article>
+                </MobileAccordion>
+              );
+            }
+
             return (
               <article
                 key={init.id}
                 className="init-card"
                 onClick={() => onOpen(init.id)}
-                style={{ opacity: !matches && activeFilters.length > 0 ? 0.4 : 1 }}>
+                style={{ opacity: dimmed ? 0.4 : 1 }}>
                 
                 <div className="init-card-num">{init.num}</div>
                 <h3 className="init-card-name">{init.name}</h3>
@@ -481,6 +598,27 @@ function PartnerSection({ onDonate }) {
 }
 
 function Footer() {
+  const isMobile = typeof useIsMobile === 'function' ? useIsMobile() : false;
+  const cols = [
+    { title: 'Regions', links: [
+      { href: '#regions', label: 'All 11 regions' },
+      { href: '#regions', label: 'Africa' },
+      { href: '#regions', label: 'South Asia' },
+      { href: '#regions', label: 'Central Asia' },
+      { href: '#regions', label: 'Europe' }] },
+    { title: 'Initiatives', links: [
+      { href: '#initiatives', label: '10/40 Window' },
+      { href: '#initiatives', label: 'Soul Care' },
+      { href: '#initiatives', label: "Women's Leadership" },
+      { href: '#initiatives', label: 'Mercy Ministry' },
+      { href: '#initiatives', label: 'Global Collab' }] },
+    { title: 'Partner', links: [
+      { href: '#partner', label: 'Become a partner' },
+      { href: '#partner', label: 'Catalyst tier' },
+      { href: '#partner', label: 'Champion tier' },
+      { href: '#partner', label: 'Backbone tier' },
+      { href: 'https://nxtmove.global', label: 'NxtMove.Global' }] }
+  ];
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -494,36 +632,20 @@ function Footer() {
             NXT Move Inc. is a registered 501(c)(3) nonprofit. All gifts are tax-deductible.
           </p>
         </div>
-        <div className="footer-col">
-          <h4>Regions</h4>
-          <ul>
-            <li><a href="#regions">All 11 regions</a></li>
-            <li><a href="#regions">Africa</a></li>
-            <li><a href="#regions">South Asia</a></li>
-            <li><a href="#regions">Central Asia</a></li>
-            <li><a href="#regions">Europe</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4>Initiatives</h4>
-          <ul>
-            <li><a href="#initiatives">10/40 Window</a></li>
-            <li><a href="#initiatives">Soul Care</a></li>
-            <li><a href="#initiatives">Women's Leadership</a></li>
-            <li><a href="#initiatives">Mercy Ministry</a></li>
-            <li><a href="#initiatives">Global Collab</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4>Partner</h4>
-          <ul>
-            <li><a href="#partner">Become a partner</a></li>
-            <li><a href="#partner">Catalyst tier</a></li>
-            <li><a href="#partner">Champion tier</a></li>
-            <li><a href="#partner">Backbone tier</a></li>
-            <li><a href="https://nxtmove.global">NxtMove.Global</a></li>
-          </ul>
-        </div>
+        {cols.map((col) => isMobile ? (
+          <MobileAccordion key={col.title} variant="footer" title={col.title}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {col.links.map((l) => <li key={l.label} style={{ padding: '6px 0' }}><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </MobileAccordion>
+        ) : (
+          <div key={col.title} className="footer-col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => <li key={l.label}><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </div>
+        ))}
       </div>
       <div className="footer-rule">
         <span>© 2026 NXT Move Inc. · From DFW to the World</span>

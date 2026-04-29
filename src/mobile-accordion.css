@@ -1,0 +1,466 @@
+/* Mobile accordion — only kicks in at ≤720px.
+   Above that, .ma-passthrough is a transparent wrapper. */
+
+.ma-passthrough { display: contents; }
+
+@media (max-width: 720px) {
+  .ma-passthrough { display: block; }
+
+  /* ── Section variant ── */
+  .ma--section {
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .ma--section + .ma--section { margin-top: 0; }
+  .ma--section .ma-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 20px;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    font: inherit;
+  }
+  .ma--section .ma-header-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .ma--section .ma-eyebrow {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 4px;
+  }
+  .ma--section .ma-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .ma--section .ma-meta {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ma--section .ma-chev {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    transition: transform .22s ease, background .22s ease, color .22s ease;
+    flex-shrink: 0;
+  }
+  .ma--section.ma--open .ma-chev {
+    transform: rotate(-180deg);
+    background: var(--brand-gradient);
+    color: #fff;
+    border-color: transparent;
+  }
+  .ma--section .ma-body {
+    padding: 0 0 8px;
+    animation: ma-fade .25s ease;
+  }
+  .ma--section .ma-body > .section {
+    padding-top: 0 !important;
+  }
+
+  /* ── Card variant (region/initiative/how/partner-block) ── */
+  .ma--card {
+    border-radius: 18px;
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .ma--card .ma-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 18px;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    font: inherit;
+  }
+  .ma--card .ma-header-text { flex: 1; min-width: 0; }
+  .ma--card .ma-eyebrow {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 3px;
+  }
+  .ma--card .ma-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .ma--card .ma-meta {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--ink-mute);
+    flex-shrink: 0;
+  }
+  .ma--card .ma-chev {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    transition: transform .22s ease;
+    flex-shrink: 0;
+  }
+  .ma--card.ma--open .ma-chev {
+    transform: rotate(-180deg);
+    color: var(--brand-orange);
+    border-color: var(--brand-orange);
+  }
+  .ma--card .ma-body {
+    border-top: 1px solid var(--line);
+    padding: 14px 18px 18px;
+    animation: ma-fade .25s ease;
+  }
+
+  /* ── Footer variant ── */
+  .ma--footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .ma--footer .ma-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+  }
+  .ma--footer .ma-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .ma--footer .ma-chev {
+    width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform .2s ease;
+    opacity: 0.7;
+  }
+  .ma--footer.ma--open .ma-chev { transform: rotate(-180deg); opacity: 1; }
+  .ma--footer .ma-body { padding: 0 0 16px; animation: ma-fade .2s ease; }
+
+  /* ── Compact-mode tweaks: pull section padding back so accordion isn't huge ── */
+  .ma--section .ma-body .section {
+    padding: 8px 20px 56px !important;
+  }
+  .ma--section .ma-body .section-eyebrow {
+    display: none; /* eyebrow already shown in header */
+  }
+  .ma--section .ma-body .section-title {
+    font-size: 30px !important;
+    line-height: 1.1 !important;
+    margin-top: 4px !important;
+  }
+  .ma--section .ma-body .section-title .accent,
+  .ma--section .ma-body .section-title span[style] {
+    font-size: 1.05em !important;
+  }
+  .ma--section .ma-body .section-lead {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Stack region/init grids to single column on mobile */
+  .region-grid,
+  .init-grid,
+  .how-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* When inside an accordion card, region/init cards drop their own chrome */
+  .ma--card .region-card,
+  .ma--card .init-card,
+  .ma--card .how-card,
+  .ma--card .partner-block {
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    cursor: default;
+  }
+  .ma--card .region-card-gradient { display: none !important; }
+  .ma--card .region-card-logo { margin-bottom: 12px !important; }
+  .ma--card .region-card-expand { display: none !important; }
+
+  /* "Open full details" button at bottom of expanded region/init card */
+  .ma-open-full {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--brand-gradient);
+    color: #fff;
+    border: 0;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* Hero stats already collapse, no change */
+  /* TOC — already hidden ≤1100px */
+
+  /* Find Yours filter cards — make them taller-friendly on tap */
+  .filter-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .filter-card {
+    padding: 14px !important;
+  }
+  .filter-card-desc { font-size: 11px !important; }
+
+  /* Footer */
+  .footer-inner {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Pull-quote section — let it breathe but shrink */
+  .pull-section-quote {
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+  }
+  .pull-section-quote .script,
+  .pull-section-quote span[style] {
+    font-size: 36px !important;
+    margin: 0 !important;
+  }
+
+  /* Hero — shrink a touch on phone */
+  .hero-title {
+    font-size: clamp(40px, 11vw, 64px) !important;
+  }
+
+  /* Mobile-only "Expand all / Collapse all" bar */
+  .ma-controls {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 16px;
+    background: color-mix(in oklch, var(--paper) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .ma-controls-btn {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper-card);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .ma-controls-btn.primary {
+    background: var(--brand-gradient);
+    color: #fff;
+    border-color: transparent;
+  }
+}
+
+@media (min-width: 721px) {
+  .ma-controls { display: none; }
+}
+
+@keyframes ma-fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ───────────── Mobile top nav (burger + partner) ───────────── */
+
+/* Default: hide mobile cluster, drawer above 720 */
+.topnav-mobile { display: none; }
+.topnav-drawer { display: none; }
+.topnav-scrim { display: none; }
+
+@media (max-width: 720px) {
+  /* tighten the bar so nothing wraps */
+  .topnav-inner {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+  }
+  .topnav-brand img { height: 26px !important; }
+
+  /* hide desktop link row */
+  .topnav-links { display: none !important; }
+
+  /* show mobile cluster on the right */
+  .topnav-mobile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .topnav-cta--mobile {
+    padding: 8px 14px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.06em;
+    border-radius: 999px;
+  }
+
+  .topnav-burger {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--paper-card);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .topnav-burger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform .25s ease, opacity .2s ease;
+    transform-origin: center;
+  }
+  .topnav-burger.open {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .topnav-burger.open span { background: var(--paper); }
+  .topnav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .topnav-burger.open span:nth-child(2) { opacity: 0; }
+  .topnav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Drawer */
+  .topnav-drawer {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 48px rgba(26,20,16,0.12);
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .2s ease;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+  .topnav-drawer.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .topnav-drawer-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 16px;
+  }
+  .topnav-drawer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .topnav-drawer-link:active { background: var(--paper-warm); }
+  .topnav-drawer-arrow {
+    color: var(--ink-mute);
+    font-size: 16px;
+  }
+  .topnav-drawer-cta {
+    margin: 16px 20px 4px;
+    padding: 16px 20px;
+    background: var(--brand-gradient);
+    color: #fff !important;
+    border-radius: 14px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(225,29,15,0.25);
+  }
+
+  /* Scrim behind drawer */
+  .topnav-scrim {
+    display: block;
+    position: fixed;
+    inset: 60px 0 0 0;
+    z-index: 55;
+    background: rgba(26,20,16,0.32);
+    backdrop-filter: blur(2px);
+    animation: ma-fade .2s ease;
+  }
+}
