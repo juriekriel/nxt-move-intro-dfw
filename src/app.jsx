@@ -1,6 +1,14 @@
 /* Main NXT Move Partnership Prospectus app */
 const { REGIONS, INITIATIVES, FILTERS, PARTNER_TIERS } = window.NXT_DATA;
-const { WorldMap, RegionModal, InitiativeModal, DonateModal, StatCounter, GeoMap, DFWSection } = window;
+// Components below (WorldMap, RegionModal, InitiativeModal, DonateModal,
+// StatCounter, GeoMap, DFWSection) are declared via `function Name() {...}`
+// at the top level of their own classic-script files after pre-compile, which
+// auto-promotes them to global var bindings — so they're already accessible
+// here by bare name. The previous `const { WorldMap, ... } = window;` line
+// re-declared those same names lexically, which collides with the existing
+// global var bindings at parse time and throws "SyntaxError: Identifier
+// 'WorldMap' has already been declared" — preventing app.js from running at
+// all and leaving the page blank.
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "light",
