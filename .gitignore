@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.log
+
+# Build outputs in public/. Everything except the assets/ folder is generated
+# by build.mjs from src/. Don't commit build artifacts; let Netlify regenerate
+# them on every deploy.
+public/*.html
+public/*.js
+public/*.css
+!public/assets/

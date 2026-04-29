@@ -1,0 +1,337 @@
+/* DFW Model City — local expression of the global vision.
+   Borrows the existing palette (--brand-gradient, --paper, --ink) so it
+   reads as part of the prospectus, not a tacked-on insert. */
+
+.dfw-section {
+  background:
+    radial-gradient(circle at 88% -10%, rgba(255,107,26,0.08) 0%, transparent 45%),
+    radial-gradient(circle at 0% 110%, rgba(225,29,15,0.06) 0%, transparent 55%),
+    var(--paper);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 120px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dfw-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── Header ── */
+.dfw-header {
+  max-width: 880px;
+  margin: 0 0 64px;
+}
+.dfw-eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px 8px 14px;
+  background: color-mix(in oklab, var(--brand-orange) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--brand-orange) 30%, transparent);
+  border-radius: 999px;
+}
+.dfw-eyebrow-pin {
+  font-size: 10px;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dfw-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 5.4vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin: 0 0 24px;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.dfw-title-accent {
+  font-family: var(--font-script);
+  font-weight: 400;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.18em;
+  display: inline-block;
+  padding: 0 0.16em 0.1em 0.04em;
+  transform: translateY(8px) rotate(-2deg);
+  overflow: visible;
+}
+.dfw-lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 760px;
+  margin: 0;
+}
+
+/* ── Research strip ── */
+.dfw-research {
+  margin: 0 0 80px;
+  padding: 36px 40px;
+  background: var(--paper-card);
+  border: 1.5px solid var(--line);
+  border-radius: 22px;
+  position: relative;
+  box-shadow: 0 18px 48px rgba(26,20,16,0.05);
+}
+.dfw-research::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 32px; right: 32px;
+  height: 3px;
+  background: var(--brand-gradient);
+  border-radius: 0 0 3px 3px;
+}
+.dfw-research-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 22px;
+}
+.dfw-research-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.dfw-research-stat {
+  border-left: 2px solid var(--line);
+  padding: 4px 0 4px 22px;
+}
+.dfw-research-stat:first-child {
+  border-left: 2px solid;
+  border-image: var(--brand-gradient) 1;
+}
+.dfw-research-val {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+.dfw-research-lbl {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.dfw-research-attrib {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+@media (max-width: 820px) {
+  .dfw-research-grid { grid-template-columns: 1fr; gap: 28px; }
+  .dfw-research-stat { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 22px; }
+  .dfw-research-stat:first-child { border-top: 2px solid; border-image: var(--brand-gradient) 1; padding-top: 22px; }
+}
+
+/* ── Pillars header rule ── */
+.dfw-pillars-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.dfw-pillars-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.dfw-pillars-eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ── Pillars grid ── */
+.dfw-pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 88px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper-card);
+  overflow: hidden;
+}
+.dfw-pillar {
+  padding: 36px 32px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  transition: background 0.2s;
+}
+.dfw-pillar:last-child { border-right: none; }
+.dfw-pillar:hover {
+  background: color-mix(in oklab, var(--brand-orange) 4%, var(--paper-card));
+}
+.dfw-pillar-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--brand-orange);
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.dfw-pillar-num::after {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--brand-gradient);
+  display: inline-block;
+}
+.dfw-pillar-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.dfw-pillar-body {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+@media (max-width: 1100px) {
+  .dfw-pillars { grid-template-columns: repeat(2, 1fr); }
+  .dfw-pillar:nth-child(2) { border-right: none; }
+  .dfw-pillar:nth-child(1), .dfw-pillar:nth-child(2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+  .dfw-pillars { grid-template-columns: 1fr; }
+  .dfw-pillar { border-right: none; border-bottom: 1px solid var(--line); }
+  .dfw-pillar:last-child { border-bottom: none; }
+}
+
+/* ── Bridge: local → global ── */
+.dfw-bridge {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 24px;
+  padding: 64px 56px;
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="dark"] .dfw-bridge {
+  background: #0A0805;
+}
+.dfw-bridge::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: var(--brand-gradient);
+}
+.dfw-bridge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255,107,26,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 5% 105%, rgba(225,29,15,0.14) 0%, transparent 50%);
+  pointer-events: none;
+}
+.dfw-bridge > * { position: relative; z-index: 1; }
+
+.dfw-bridge-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  margin-bottom: 28px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.dfw-bridge-from {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dfw-bridge-arrow {
+  opacity: 0.6;
+  font-size: 15px;
+}
+.dfw-bridge-to {
+  color: rgba(255,255,255,0.95);
+}
+.dfw-bridge-body {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+  max-width: 920px;
+  text-wrap: balance;
+}
+.dfw-bridge-cta {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.78);
+  margin: 0 0 32px;
+  max-width: 760px;
+}
+.dfw-bridge-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.dfw-bridge .btn-secondary {
+  color: var(--paper);
+  border-color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.dfw-bridge .btn-secondary:hover {
+  border-color: var(--brand-orange);
+  color: var(--brand-orange);
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .dfw-section { padding: 80px 20px; }
+  .dfw-bridge { padding: 40px 28px; }
+}

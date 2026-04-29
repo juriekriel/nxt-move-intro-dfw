@@ -1,0 +1,15 @@
+{
+  "name": "nxt-move-c4s",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NXT Move Partnership Prospectus & Giving — Netlify static deploy",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes http-server public -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@babel/preset-react": "^7.24.0",
+    "terser": "^5.31.0"
+  }
+}

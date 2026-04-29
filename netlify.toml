@@ -1,0 +1,56 @@
+# Netlify build & deploy config for NXT Move C4S.
+#
+# What gets deployed: the contents of public/, after `npm run build` populates it
+# with the transpiled .js files, copied .css files, and rewritten .html files.
+# The assets/ folder is checked into public/ as-is.
+
+[build]
+  command = "npm run build"
+  publish = "public"
+
+[build.environment]
+  # Pin Node so deploys are reproducible. 20 is the current LTS as of this writing.
+  NODE_VERSION = "20"
+
+# Long-cache the assets and compiled JS — they're versioned via the build (hash
+# any of them and you get a new file). HTML stays short-cached so updates ship.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    # Sources reference styles.css?v=2 — querystring works as a cache key, so
+    # we can long-cache CSS too. If you stop using ?v= cachebusters, drop this
+    # to something shorter.
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Pretty URLs: serve giving.html at /giving (Netlify already does index.html
+# automatically, so no rule needed for the prospectus).
+[[redirects]]
+  from = "/giving"
+  to = "/giving.html"
+  status = 200
+
+# Legacy URL from the original zip — keep it working in case anyone bookmarked it.
+[[redirects]]
+  from = "/Partnership%20Prospectus.html"
+  to = "/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/Giving.html"
+  to = "/giving.html"
+  status = 301
