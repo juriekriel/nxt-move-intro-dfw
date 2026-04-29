@@ -6,14 +6,14 @@ function TopNav() {
   return (
     <header className="topnav">
       <div className="topnav-inner">
-        <a href="Partnership Prospectus.html" className="topnav-brand">
+        <a href="index.html" className="topnav-brand">
           <img src="assets/logos/nxt-horizontal.png" alt="NXT Move" />
         </a>
         <nav className="topnav-links">
-          <a className="topnav-link" href="Partnership Prospectus.html">Prospectus</a>
-          <a className="topnav-link" href="Partnership Prospectus.html#regions">Regions</a>
-          <a className="topnav-link" href="Partnership Prospectus.html#initiatives">Initiatives</a>
-          <a className="topnav-link" href="Partnership Prospectus.html#partner">Partner</a>
+          <a className="topnav-link" href="index.html">Prospectus</a>
+          <a className="topnav-link" href="index.html#regions">Regions</a>
+          <a className="topnav-link" href="index.html#initiatives">Initiatives</a>
+          <a className="topnav-link" href="index.html#partner">Partner</a>
           <a className="topnav-cta" href={PUSHPAY_URL} target="_blank" rel="noopener noreferrer">Give</a>
         </nav>
       </div>
@@ -34,7 +34,7 @@ function Hero() {
     <section className="giving-hero">
       <div className="giving-hero-bg" />
       <div className="giving-hero-inner">
-        <a href="Partnership Prospectus.html" className="back-link">
+        <a href="index.html" className="back-link">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M11 18l-6-6 6-6" />
           </svg>
@@ -191,10 +191,10 @@ function Footer() {
         <div className="footer-col">
           <h4>Explore</h4>
           <ul>
-            <li><a href="Partnership Prospectus.html">Prospectus</a></li>
-            <li><a href="Partnership Prospectus.html#regions">11 Regions</a></li>
-            <li><a href="Partnership Prospectus.html#initiatives">Initiatives</a></li>
-            <li><a href="Partnership Prospectus.html#partner">Partner</a></li>
+            <li><a href="index.html">Prospectus</a></li>
+            <li><a href="index.html#regions">11 Regions</a></li>
+            <li><a href="index.html#initiatives">Initiatives</a></li>
+            <li><a href="index.html#partner">Partner</a></li>
           </ul>
         </div>
         <div className="footer-col">

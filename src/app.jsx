@@ -1,4 +1,4 @@
-/* Main NXT Move Partnership Prospectus app */
+/* Main NXT Move site — From DFW to the World */
 const { REGIONS, INITIATIVES, FILTERS, PARTNER_TIERS } = window.NXT_DATA;
 // Components below (WorldMap, RegionModal, InitiativeModal, DonateModal,
 // StatCounter, GeoMap, DFWSection) are declared via `function Name() {...}`
@@ -526,7 +526,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-rule">
-        <span>© 2026 NXT Move Inc. · Partnership Prospectus</span>
+        <span>© 2026 NXT Move Inc. · From DFW to the World</span>
         <span>Elevating Leaders. Multiplying Impact.</span>
       </div>
     </footer>);
