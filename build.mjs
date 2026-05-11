@@ -148,6 +148,7 @@ async function buildPreviewHtml() {
         ].join('\n');
     await fs.writeFile(path.join(OUT, 'preview.html'), html, 'utf8');
     console.log(' html preview.html (generated)');
+}
   
 
 async function main() {
