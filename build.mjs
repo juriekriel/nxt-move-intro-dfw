@@ -102,6 +102,21 @@ async function buildHtml() {
     );
 
     // The HTML files cache-bust some CSS with ?v= — leave them alone; they're harmless.
+  
+  // Inject Open Graph / Twitter Card meta tags for link preview thumbnail (index.html only).
+  if (f === 'index.html') {
+    const OG_TAGS = `
+  <meta property="og:type"         content="website" />
+  <meta property="og:url"          content="https://nxt-move-intro-dfw.netlify.app/" />
+  <meta property="og:title"        content="NXT Move · Partnership Prospectus" />
+  <meta property="og:description"  content="Shaping the Future Together for the Next Generation in Dallas/Fort Worth &amp; around the globe." />
+  <meta property="og:image"        content="https://nxt-move-intro-dfw.netlify.app/assets/og-image.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:image"       content="https://nxt-move-intro-dfw.netlify.app/assets/og-image.png" />`;
+    html = html.replace('</title>', '</title>' + OG_TAGS);
+  }
     await fs.writeFile(path.join(OUT, f), html, 'utf8');
     console.log(`  html ${f}`);
   }
