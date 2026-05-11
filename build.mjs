@@ -122,6 +122,34 @@ async function buildHtml() {
   }
 }
 
+// Generate a lightweight preview.html with OG tags and instant JS redirect.
+async function buildPreviewHtml() {
+    const html = [
+          '<!DOCTYPE html>',
+          '<html lang="en">',
+          '<head>',
+          '  <meta charset="utf-8" />',
+          '  <title>NXT Move - Partnership Prospectus</title>',
+          '  <meta property="og:type" content="website" />',
+          '  <meta property="og:url" content="https://nxt-move-intro-dfw.netlify.app/preview.html" />',
+          '  <meta property="og:title" content="NXT Move - Partnership Prospectus" />',
+          '  <meta property="og:description" content="Shaping the Future Together for the Next Generation in Dallas/Fort Worth and around the globe." />',
+          '  <meta property="og:image" content="https://nxt-move-intro-dfw.netlify.app/assets/og-image.png" />',
+          '  <meta property="og:image:width" content="1560" />',
+          '  <meta property="og:image:height" content="975" />',
+          '  <meta name="twitter:card" content="summary_large_image" />',
+          '  <meta name="twitter:title" content="NXT Move - Partnership Prospectus" />',
+          '  <meta name="twitter:description" content="Shaping the Future Together for the Next Generation in Dallas/Fort Worth and around the globe." />',
+          '  <meta name="twitter:image" content="https://nxt-move-intro-dfw.netlify.app/assets/og-image.png" />',
+          '  <script>window.location.replace("https://nxt-move-intro-dfw.netlify.app/");</' + 'script>',
+          '</head>',
+          '<body></body>',
+          '</html>',
+        ].join('\n');
+    await fs.writeFile(path.join(OUT, 'preview.html'), html, 'utf8');
+    console.log(' html preview.html (generated)');
+  
+
 async function main() {
   console.log('Building static site to public/...');
   await ensureDir(OUT);
@@ -130,6 +158,7 @@ async function main() {
   await buildJsx();
   await copyCss();
   await buildHtml();
+    await buildPreviewHtml();
   console.log('Done.');
 }
 
